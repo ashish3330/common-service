@@ -1,0 +1,2 @@
+com.neighbourly.commonservice.config.CommonLibraryAutoConfiguration
+com.neighbourly.commonservice.config.DispatcherAutoConfiguration
