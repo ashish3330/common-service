@@ -27,4 +27,20 @@ public class Either<L, R> {
     public <T> T fold(Function<L, T> leftFunc, Function<R, T> rightFunc) {
         return isLeft() ? leftFunc.apply(left) : rightFunc.apply(right);
     }
+
+    // Add map method
+    public <T> Either<L, T> map(Function<R, T> mapper) {
+        if (isLeft()) {
+            return Either.left(left);
+        }
+        return Either.right(mapper.apply(right));
+    }
+
+    // Add flatMap method
+    public <T> Either<L, T> flatMap(Function<R, Either<L, T>> mapper) {
+        if (isLeft()) {
+            return Either.left(left);
+        }
+        return mapper.apply(right);
+    }
 }

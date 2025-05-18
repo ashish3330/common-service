@@ -17,29 +17,57 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.modelmapper:modelmapper:3.1.1'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'com.h2database:h2:2.2.224' // Add H2 for tests
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-
 test {
 	useJUnitPlatform()
-	exclude '**/*IntegrationTest*' // Temporarily exclude integration tests
+	exclude '**/*IntegrationTest*'
 }
-
 
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
+			groupId = 'com.neighbourly'
+			artifactId = 'common-service'
+			version = '1.0.0'
 			pom {
 				name = 'Common Service'
 				description = 'Shared services for Neighbourly applications'
+				url = 'https://github.com/ashish3330/common-service'
+				licenses {
+					license {
+						name = 'Apache License, Version 2.0'
+						url = 'http://www.apache.org/licenses/LICENSE-2.0'
+					}
+				}
+				developers {
+					developer {
+						id = 'ashish3330'
+						name = 'Ashish'
+						email = 'chaurasiyaashish007@gmail.com' // Replace with your email
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/ashish3330/common-service.git'
+					developerConnection = 'scm:git:ssh://github.com/ashish3330/common-service.git'
+					url = 'https://github.com/ashish3330/common-service'
+				}
 			}
 		}
 	}
 	repositories {
-		mavenLocal()
+		maven {
+			name = 'GitHubPackages'
+			url = 'https://maven.pkg.github.com/ashish3330/common-service'
+			credentials {
+				username = project.findProperty('githubUser') ?: System.getenv('githubUser')
+				password = project.findProperty('githubToken') ?: System.getenv('githubToken')
+			}
+		}
 	}
 }
